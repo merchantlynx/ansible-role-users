@@ -9,7 +9,7 @@
   user: 
     name: "{{item.username}}"
     password: "{{item.password if item.password is defined else '!'}}"
-    groups=: "{{item.groups | join(',')}}"
+    groups: "{{item.groups | join(',')}}"
     comment: "{{item.name}}"
     uid: "{{item.uid}}"
   with_items: "{{users}}"
