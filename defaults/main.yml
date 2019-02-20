@@ -1,3 +1,5 @@
 ---
 # defaults file for merchantlynx.users
-users
+users: []
+deleted_users: []
+groups_to_create: []
