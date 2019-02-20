@@ -1,0 +1,29 @@
+---
+# tasks file for merchantlynx.users
+- name: Create appropriate groups
+  group:
+    name: "{{item}}"
+  with_items: "{{groups_to_create}}"
+
+- name: Create users
+  user: 
+    name: "{{item.username}}"
+    password: "{{item.password if item.password is defined else '!'}}"
+    groups=: "{{item.groups | join(',')}}"
+    comment: "{{item.name}}"
+    uid: "{{item.uid}}"
+  with_items: "{{users}}"
+
+- name: Install SSH public keys
+  authorized_key:
+    user: "{{item.0.username}}"
+    key: "{{item.1}}"
+  with_subelements:
+    - "{{users}}"
+    - ssh_keys
+
+- name: Delete users
+  user:
+    name: "{{item.username}}"
+    state: absent
+  with_items: "{{deleted_users}}"
